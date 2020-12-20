@@ -1,0 +1,21 @@
+table, th, td {
+    font-size: 14px;
+}
+
+th, td {
+
+    text-align: left;
+    padding: 2px !important;
+}
+
+.t-center {
+    text-align: center;
+}
+
+.t-left {
+    text-align: left;
+}
+
+.bgcolor {
+    background: #f1f1f1;
+}
