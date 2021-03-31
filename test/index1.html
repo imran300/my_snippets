@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <style>
+        #company {
+            font-size: 25px;
+            font-weight: bold;
+            padding-top: 15px;
+            line-height: 56px;
+            height: 56px;
+            width: 420px !important;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+
+        /** RTL **/
+        .rtl {
+            direction: rtl;
+            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        }
+
+        .rtl table {
+            text-align: right;
+        }
+
+        .rtl table tr td:nth-child(2) {
+            text-align: left;
+        }
+
+        input {
+            border-left-width: 1px;
+            border-right-width: 1px;
+            overflow: hidden;
+        }
+
+        .span-12 {
+            border-left-width: 1px;
+            border-right-width: 1px;
+        }
+
+        input {
+            border: 0;
+            border: 1px;
+            background: none;
+            padding: 0;
+            font-size: 15px;
+            color: #222;
+            font-family: "Helvetica Neue", arial, sans;
+            line-height: 23px;
+        }
+
+        input, textarea {
+            -webkit-appearance: none;
+            -webkit-border-radius: 0;
+            background: transparent;
+            border: 1px;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 100, 0.4) !important;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 100, 0.5)), to(rgba(255, 255, 100, 0.1))) !important;
+            color: #000;
+            text-shadow: #fff 1px 1px;
+            -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea.notes {
+            padding: 20px 70px 0px 70px;
+            font-family: "Helvetica Neue", arial, sans;
+            font-size: 14px;
+            background: none;
+            line-height: 21px;
+            border: 0;
+            resize: none;
+            font-size: 15px;
+            margin: 10px auto 0px auto;
+            width: 680px;
+            height: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js"></script>-->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
+
+    <script>
+        function generatePDF() {
+            // Choose the element that our invoice is rendered in.
+            const element = document.getElementById("invoice");
+            // Choose the element and save the PDF for our user.
+            var pdf;
+            var pdfout;
+            var Narvarande = "Johnny";
+            var filnamn = "123456";
+            var Lagenhetsadress = "BB1234 43";
+            html2pdf().from(element).output('datauri').then(function (pdfout) {
+
+//  console.log(btoa(pdf));;
+
+                $.ajax({
+                    method: "POST",
+                    url: "save.php",
+                    data: {
+                        data: pdfout,
+                        besiktare: Narvarande,
+                        namn: filnamn,
+                        adress: Lagenhetsadress,
+                    },
+                }).done(function (data) {
+                    console.log("Return från skickapdf: ");
+                    console.log(data);
+                });
+
+            }).saveAs();
+        }
+    </script>
+</head>
+
+<body>
+<div class="invoice-box" id="invoice">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <input id="company" class="span-12 ll" value="Your Company Name">
+                        </td>
+
+                        <td>
+                            <input value="Invoice #: 123"/><br/>
+                            <input value="Created: January 1, 2015"><br/>
+                            <input value="Due: February 1, 2015">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <input value="Sparksuite, Inc."><br/>
+                            <input value="12345 Sunny Road"><br/>
+                            <input value="Sunnyville, CA 12345">
+                        </td>
+
+                        <td>
+                            <input value="Acme Corp."><br/>
+                            <input value="John Doe"><br/>
+                            <input value="john@example.com">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr class="heading">
+            <td>Item</td>
+
+            <td>Price</td>
+        </tr>
+
+        <tr class="total">
+            <td></td>
+
+            <td>Total: $385.00</td>
+        </tr>
+    </table>
+
+    <textarea class="notes growfield growfieldDummy" id="textone" cols="95" rows="1"
+              style="resize: none; overflow: hidden; position: absolute; left: -9999px; top: 0px; height: 20px;" name=""
+              tabindex="-9999">Dear Ms. Jane Doe,
+
+Please find below a cost-breakdown for the recent work completed. Please make payment at your earliest convenience, and do not hesitate to contact me with any questions.
+
+Many thanks,
+Your Name</textarea>
+    <textarea class="notes growfield" id="textone" cols="95" rows="1"
+              style="resize: none; overflow: hidden; height: 182px;">Dear Ms. Jane Doe,
+
+Please find below a cost-breakdown for the recent work completed. Please make payment at your earliest convenience, and do not hesitate to contact me with any questions.
+
+Many thanks,
+Your Name</textarea>
+
+</div>
+
+<button onclick="generatePDF()">Download as PDF</button>
+
+</body>
+</html>
