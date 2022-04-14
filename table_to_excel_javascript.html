@@ -1,0 +1,123 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<table id="tbl_exporttable_to_xls" border="1">
+    <thead>
+    <th>Sr</th>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Job Profile</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>
+            <p>Amit Sarna</p>
+        </td>
+        <td>Florida</td>
+        <td>Data Scientist</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>
+            <p>Sagar Gada</p>
+        </td>
+        <td>California</td>
+        <td>Sr FullStack Dev</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>
+            <p>Ricky Marck</p>
+        </td>
+        <td>Nevada</td>
+        <td>Sr .Net Dev</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>
+            <p>Andrea Ely</p>
+        </td>
+        <td>New York</td>
+        <td>Sr Delivery Mgr</td>
+    </tr>
+
+    <tr>
+        <td>5</td>
+        <td>
+            <p>Sunita Devgan</p>
+        </td>
+        <td>Colorado</td>
+        <td>UiUx Expert</td>
+    </tr>
+    </tbody>
+</table>
+<hr>
+<table id="tbl_exporttable_to_xls2" border="1">
+    <thead>
+    <th>Id</th>
+    <th>Product Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>
+            <p>Mango</p>
+        </td>
+        <td>10</td>
+        <td>100$</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>
+            <p>Apple</p>
+        </td>
+        <td>20</td>
+        <td>130$</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>
+            <p>Banana</p>
+        </td>
+        <td>203</td>
+        <td>90$</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>
+            <p>Tomato</p>
+        </td>
+        <td>230</td>
+        <td>50$</td>
+    </tr>
+
+
+    </tbody>
+</table><br/>
+<button onclick="ExportToExcel()">Export table to excel</button>
+
+<script>
+
+    function ExportToExcel() {
+        var workbook = XLSX.utils.book_new();
+        var tbl1= document.getElementById('tbl_exporttable_to_xls');
+        var tbl2= document.getElementById('tbl_exporttable_to_xls2');
+        var wb1 = XLSX.utils.table_to_sheet(tbl1);
+        XLSX.utils.book_append_sheet(workbook, wb1,'sheet11');
+
+        var wb2 = XLSX.utils.table_to_sheet(tbl2);
+        XLSX.utils.book_append_sheet(workbook, wb2,'sheet12' );
+
+        XLSX.writeFile(workbook,'multisheet_file.xlsx');
+    }
+
+</script>
+</body>
+</html>
+
+                        
